@@ -1,0 +1,12 @@
+﻿name: Broken Pipeline Challenge
+on: 
+  push:
+    branches: [feature/ci-pipeline]
+
+jobs:
+  test-job:
+    runs-on: ubuntu
+    steps:
+      - name: This will fail
+      run: pip install pytest
+      - run: pytest
