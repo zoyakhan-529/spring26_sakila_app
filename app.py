@@ -12,7 +12,7 @@ import pymysql
 from config import Config
 import csv
 from io import StringIO
-from datetime import datetime, timedelta
+
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -52,7 +52,7 @@ def dashboard():
             # Get revenue statistics
             cur.execute(
                 """
-                SELECT SUM(amount) as total_revenue, 
+                SELECT SUM(amount) as total_revenue,
                        AVG(amount) as avg_rental_price,
                        COUNT(*) as total_transactions
                 FROM payment
@@ -150,7 +150,7 @@ def films():
         with conn.cursor() as cur:
             # Build query with filters
             query = """
-                SELECT f.film_id, f.title, f.release_year, f.rental_rate, 
+                SELECT f.film_id, f.title, f.release_year, f.rental_rate,
                        f.length, f.rating, c.name as category,
                        COUNT(r.rental_id) as rental_count,
                        l.name as language_name
@@ -287,8 +287,8 @@ def add_film():
                 # Insert film
                 cur.execute(
                     """
-                    INSERT INTO film (title, description, release_year, language_id, 
-                                    rental_duration, rental_rate, length, replacement_cost, 
+                    INSERT INTO film (title, description, release_year, language_id,
+                                    rental_duration, rental_rate, length, replacement_cost,
                                     rating, special_features)
                     VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
                 """,
@@ -383,9 +383,9 @@ def edit_film(film_id):
             with conn.cursor() as cur:
                 cur.execute(
                     """
-                    UPDATE film 
+                    UPDATE film
                     SET title=%s, description=%s, release_year=%s, language_id=%s,
-                        rental_duration=%s, rental_rate=%s, length=%s, 
+                        rental_duration=%s, rental_rate=%s, length=%s,
                         replacement_cost=%s, rating=%s, special_features=%s
                     WHERE film_id=%s
                 """,
@@ -450,9 +450,9 @@ def edit_film(film_id):
             # Get current actors
             cur.execute(
                 """
-                SELECT a.actor_id 
-                FROM actor a 
-                JOIN film_actor fa ON a.actor_id = fa.actor_id 
+                SELECT a.actor_id
+                FROM actor a
+                JOIN film_actor fa ON a.actor_id = fa.actor_id
                 WHERE fa.film_id = %s
             """,
                 (film_id,),
@@ -567,7 +567,7 @@ def film_detail(film_id):
             # Get rental statistics
             cur.execute(
                 """
-                SELECT COUNT(*) as total_rentals, 
+                SELECT COUNT(*) as total_rentals,
                        AVG(DATEDIFF(return_date, rental_date)) as avg_rental_days
                 FROM rental r
                 JOIN inventory i ON r.inventory_id = i.inventory_id
@@ -612,7 +612,7 @@ def export_films():
         with conn.cursor() as cur:
             cur.execute(
                 """
-                SELECT f.film_id, f.title, f.description, f.release_year, 
+                SELECT f.film_id, f.title, f.description, f.release_year,
                        f.rental_rate, f.length, f.rating, c.name as category,
                        l.name as language, f.replacement_cost, f.rental_duration,
                        f.special_features
@@ -688,7 +688,7 @@ def actors():
         with conn.cursor() as cur:
             # Build query
             query = """
-                SELECT a.actor_id, a.first_name, a.last_name, 
+                SELECT a.actor_id, a.first_name, a.last_name,
                        DATE_FORMAT(a.last_update, '%%Y-%%m-%%d %%H:%%i:%%s') as last_update,
                        COUNT(fa.film_id) as film_count
                 FROM actor a
@@ -947,7 +947,7 @@ def customers():
         conn = get_db_connection()
         with conn.cursor() as cur:
             query = """
-                SELECT c.customer_id, c.first_name, c.last_name, c.email, 
+                SELECT c.customer_id, c.first_name, c.last_name, c.email,
                        a.address, a.district, ci.city, co.country,
                        c.active, c.create_date,
                        (SELECT COUNT(*) FROM rental r WHERE r.customer_id = c.customer_id) as rental_count
@@ -1202,7 +1202,7 @@ def stores():
         with conn.cursor() as cur:
             cur.execute(
                 """
-                SELECT s.store_id, 
+                SELECT s.store_id,
                        a.address, a.district, a.postal_code,
                        ci.city, co.country,
                        st.first_name as manager_first, st.last_name as manager_last,
