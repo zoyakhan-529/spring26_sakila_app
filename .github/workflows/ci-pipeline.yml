@@ -58,13 +58,14 @@ jobs:
           tar -xzf sakila-db.tar.gz
           mysql -h 127.0.0.1 -uroot -padmin < sakila-db/sakila-schema.sql
           mysql -h 127.0.0.1 -uroot -padmin < sakila-db/sakila-data.sql
-      - name: Run tests
-        env:
+      - - name: Run tests
+          env:
           MYSQL_HOST: 127.0.0.1
           MYSQL_USER: root
           MYSQL_PASSWORD: admin
           MYSQL_DB: sakila
-        run: pytest tests/ -v
+          PYTHONPATH: .
+          run: pytest tests/ -v
 
   build:
     runs-on: ubuntu-latest
