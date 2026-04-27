@@ -60,11 +60,11 @@ jobs:
           mysql -h 127.0.0.1 -uroot -padmin < sakila-db/sakila-data.sql
       - - name: Run tests
           env:
-          MYSQL_HOST: 127.0.0.1
-          MYSQL_USER: root
-          MYSQL_PASSWORD: admin
-          MYSQL_DB: sakila
-          PYTHONPATH: .
+           MYSQL_HOST: 127.0.0.1
+           MYSQL_USER: root
+           MYSQL_PASSWORD: admin
+           MYSQL_DB: sakila
+           PYTHONPATH: .
           run: pytest tests/ -v
 
   build:
