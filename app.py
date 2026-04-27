@@ -15,6 +15,7 @@ from io import StringIO
 
 
 app = Flask(__name__)
+app.secret_key = 'dev-secret-key-for-assignment'
 app.config.from_object(Config)
 
 
